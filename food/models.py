@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.urls import reverse
 
 
 class Item(models.Model):
@@ -14,5 +16,14 @@ class Item(models.Model):
         null=True,
         blank=True,
     )
+    user_name = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        default=1,
+    )
+
     def __str__(self):
         return self.item_name
+
+    def get_absolute_url(self):
+        return reverse('food:detail', kwargs={'pk': self.pk})
